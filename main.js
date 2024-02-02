@@ -1,10 +1,9 @@
 import { colors } from './colors.js';
 
 const container = document.getElementsByClassName('container');
-const input = document.querySelector('input');
+const search = document.getElementById('search');
 
-input.addEventListener('input', (e) => {
+search.addEventListener('input', (e) => {
     console.log(e.value);
-
     container.style.backgroundColor = colors[e.target.value];
 });

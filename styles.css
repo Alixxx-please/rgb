@@ -8,7 +8,7 @@ body {
     height: 100%;
 }
 
-input {
+#search {
     width: 50%;
     height: 50%;
 }
