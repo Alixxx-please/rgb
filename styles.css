@@ -9,6 +9,5 @@ body {
 }
 
 #search {
-    width: 50%;
-    height: 50%;
+    display: none;
 }
