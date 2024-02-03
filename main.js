@@ -173,7 +173,6 @@ function randomColor() {
 };
 
 let color = randomColor();
-
 window.onload = () => {
     document.body.style.backgroundColor = color.hex;
     search.focus();
@@ -181,7 +180,7 @@ window.onload = () => {
 
 let main = document.querySelector('p');
 main.addEventListener('click', () => {
-    if (main.innerText.startsWith('#') || main.innerText.includes('rgb')) {
+    if (main.firstChild.nodeValue.startsWith('#') || main.firstChild.nodeValue.includes('rgb')) {
         let content = '';
         if (mode === 'hex') {
             navigator.clipboard.writeText(color.hex);
@@ -190,9 +189,9 @@ main.addEventListener('click', () => {
             navigator.clipboard.writeText(color.rgb);
             content = color.rgb;
         };
-        main.innerText = 'Copied color to clipboard!';
+        main.firstChild.nodeValue = 'Copied color to clipboard!';
         timeout = setTimeout(() => {
-            main.innerText = content;
+            main.firstChild.nodeValue = content;
         }, 1800);
     };
 });
@@ -203,66 +202,66 @@ function isColor(color) {
     return false;
 };
 
-
-const autocomplete = document.getElementById('autocomplete');
-
 let previousColor = color.hex;
+let autocomplete = document.createElement('span');
+main.appendChild(autocomplete);
 search.addEventListener('input', (e) => {
     e.preventDefault();
-    const userInput = search.value;
-    const result = colors.find(color => color.toLowerCase().startsWith(userInput.toLowerCase()));
+    const input = search.value;
+    const result = colors.find(color => color.toLowerCase().startsWith(input.toLowerCase()));
     if (result) {
-        autocomplete.value = result;
+        autocomplete.innerText = result.substring(input.length);
         search.setAttribute('data-autocomplete', result);
-        const mainRect = main.getBoundingClientRect();
     } else {
-        autocomplete.value = '';
-    }
-
-    
-
-
-
+        autocomplete.innerText = '';
+    };
 
     if (search.value.startsWith('#')) {
         search.setAttribute('maxlength', '7');
     } else if (search.value.startsWith('rgb')) {
         search.setAttribute('maxlength', '16');
     };
+
     if (search.value === '') {
         document.body.style.backgroundColor = previousColor;
-        main.innerText = mode === 'hex' ? previousColor : color.rgb;
+        main.firstChild.nodeValue = mode === 'hex' ? previousColor : color.rgb;
     } else {
-        main.innerText = search.value;
+        main.firstChild.nodeValue = search.value;
         if (isColor(search.value)) {
             document.body.style.backgroundColor = search.value;
         };
-        document.body.style.backgroundColor = au
+        for (color of colors) {
+            if (color.toLowerCase() === search.value.toLowerCase()) {
+                document.body.style.backgroundColor = search.value;
+                main.firstChild.nodeValue = search.value;
+            };
+        };
     };
 });
 
 let mode = 'hex';
 window.addEventListener('keydown', (e) => {
+    const result = search.getAttribute('data-autocomplete');
     if (e.ctrlKey) {
         mode = mode === 'hex' ? 'rgb' : 'hex';
         if (mode === 'hex') {
-            main.innerText = color.hex;
+            main.firstChild.nodeValue = color.hex;
             search.placeholder = color.hex;
         } else {
-            main.innerText = color.rgb;
+            main.firstChild.nodeValue = color.rgb;
             search.placeholder = color.rgb;
         };
     };
     if (e.key === ' ') {
         e.preventDefault();
-        clearTimeout(timeout)
+        clearTimeout(timeout);
         color = randomColor();
         previousColor = color.hex;
         if (mode === 'hex') {
-            main.innerText = color.hex;
+            main.firstChild.nodeValue = color.hex;
             search.placeholder = color.hex;
         } else {
-            main.innerText = color.rgb;
+            main.firstChild.nodeValue = color.rgb;
             search.placeholder = color.rgb;
         };
         document.body.style.backgroundColor = color.hex;
@@ -270,14 +269,14 @@ window.addEventListener('keydown', (e) => {
         main.style.cursor = 'text';
         search.focus();
         search.value = '';
+        autocomplete.innerText = '';
     };
     if (e.key === 'Enter') {
         e.preventDefault();
-        const result = search.getAttribute('data-autocomplete');
         if (result) {
             search.value = result;
-            autocomplete.value = '';
-            main.innerText = result;
+            autocomplete.innerText = '';
+            main.firstChild.nodeValue = result;
             document.body.style.backgroundColor = result;
         };
     };
