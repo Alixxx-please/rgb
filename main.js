@@ -178,7 +178,7 @@ window.onload = () => {
     search.focus();
 };
 
-let main = document.querySelector('p');
+let main = document.getElementById('header');
 main.addEventListener('click', () => {
     if (main.firstChild.nodeValue.startsWith('#') || main.firstChild.nodeValue.includes('rgb')) {
         let content = '';
@@ -190,8 +190,10 @@ main.addEventListener('click', () => {
             content = color.rgb;
         };
         main.firstChild.nodeValue = 'Copied color to clipboard!';
+        main.classList.add('pulse');
         timeout = setTimeout(() => {
             main.firstChild.nodeValue = content;
+            main.classList.remove('pulse');
         }, 1800);
     };
 });
@@ -209,7 +211,7 @@ search.addEventListener('input', (e) => {
     e.preventDefault();
     const input = search.value;
     const result = colors.find(color => color.toLowerCase().startsWith(input.toLowerCase()));
-    if (result) {
+    if (result && input !== '') {
         autocomplete.innerText = result.substring(input.length);
         search.setAttribute('data-autocomplete', result);
     } else {
@@ -241,6 +243,7 @@ search.addEventListener('input', (e) => {
 
 let mode = 'hex';
 window.addEventListener('keydown', (e) => {
+    console.log(e.key)
     const result = search.getAttribute('data-autocomplete');
     if (e.ctrlKey) {
         mode = mode === 'hex' ? 'rgb' : 'hex';

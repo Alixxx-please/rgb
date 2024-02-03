@@ -41,13 +41,14 @@ body {
     height: 100vh;
 }
 
-p {
+#header {
     position: relative;
     color: white;
     cursor: pointer;
     text-align: center;
     font-family: 'Gotham';
     font-size: 50px;
+    letter-spacing: 2px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -59,4 +60,34 @@ p {
 span {
     color: white;
     opacity: 0.4;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: 'Gotham';
+    font-size: 23px;
+    opacity: 0.6;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.05);
+    }
+    75% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse 0.5s ease-in-out;
 }
