@@ -153,18 +153,7 @@ const container = document.querySelector('.container');
 const search = document.getElementById('search');
 let keyword = '';
 
-function mobile() {
-    const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-    return regex.test(navigator.userAgent);
-}
-
-if (mobile()) {
-    keyword = 'touchstart';
-} else {
-    keyword = 'keydown';
-};
-
-function getRandomColor() {
+function randomColor() {
     const values = '0123456789ABCDEF';
     let color = '#';
     let rgbColor = 'rgb(';
@@ -182,33 +171,45 @@ function getRandomColor() {
     return {hex: color, rgb: rgbColor};
 }
 
-let main = document.querySelector('p');
-let lastClick = 0;
-main.addEventListener('click', () => {
-    let time = new Date().getTime();
-    let diff = time - lastClick;
-    if (main.innerText.startsWith('#')) {
-        if (diff < 500) {
-            console.log('Double click detected');
-        } else {
-            navigator.clipboard.writeText(main.innerText);
-            console.log('Color copied to clipboard');
-        };
-    }
-    lastClick = time;
-});
+let color = randomColor();
 
 window.onload = () => {
-    const color = getRandomColor();
     document.body.style.backgroundColor = color.hex;
-
 };
 
-window.addEventListener(keyword, (e) => {
+let main = document.querySelector('p');
+main.addEventListener('click', () => {
+    if (main.innerText.startsWith('#') || main.innerText.includes('rgb')) {
+        if (mode === 'hex') {
+            navigator.clipboard.writeText(color.hex);
+        } else if (mode === 'rgb') {
+            navigator.clipboard.writeText(color.rgb);
+        };
+        const popup = document.getElementById('popup');
+        popup.classList.add('show');
+        setTimeout(() => popup.classList.remove('show'), 2000);
+    };
+});
+
+let mode = 'hex';
+
+window.addEventListener('keydown', (e) => {
+    if (e.shiftKey) {
+        mode = mode === 'hex' ? 'rgb' : 'hex';
+        if (mode === 'hex') {
+            main.innerText = color.hex;
+        } else {
+            main.innerText = color.rgb;
+        };
+    };
     if (e.key === ' ') {
-        const color = getRandomColor();
+        color = randomColor();
+        if (mode === 'hex') {
+            main.innerText = color.hex;
+        } else {
+            main.innerText = color.rgb;
+        };
         document.body.style.backgroundColor = color.hex;
-        main.innerText = color.hex;
         main.style.userSelect = 'all';
         main.style.cursor = 'text';
     };
