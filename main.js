@@ -151,6 +151,18 @@ const colors = [
 
 const container = document.querySelector('.container');
 const search = document.getElementById('search');
+let keyword = '';
+
+function mobile() {
+    const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+    return regex.test(navigator.userAgent);
+}
+
+if (mobile()) {
+    keyword = 'touchstart';
+} else {
+    keyword = 'keydown';
+};
 
 function getRandomColor() {
     const values = '0123456789ABCDEF';
@@ -192,7 +204,7 @@ window.onload = () => {
 
 };
 
-window.addEventListener('keydown', (e) => {
+window.addEventListener(keyword, (e) => {
     if (e.key === ' ') {
         const color = getRandomColor();
         document.body.style.backgroundColor = color.hex;
