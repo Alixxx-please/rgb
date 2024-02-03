@@ -152,6 +152,7 @@ const colors = [
 const container = document.querySelector('.container');
 const search = document.getElementById('search');
 let keyword = '';
+let timeout;
 
 function randomColor() {
     const values = '0123456789ABCDEF';
@@ -190,20 +191,59 @@ main.addEventListener('click', () => {
             content = color.rgb;
         };
         main.innerText = 'Copied color to clipboard!';
-        setTimeout(() => {
+        timeout = setTimeout(() => {
             main.innerText = content;
         }, 1800);
     };
 });
 
+function isColor(color) {
+    if (/^#([0-9A-F]{3}){1,2}$/i.test(color)) return true;
+    if (/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/.test(color)) return true;
+    return false;
+};
+
+
+const autocomplete = document.getElementById('autocomplete');
+
+let previousColor = color.hex;
 search.addEventListener('input', (e) => {
     e.preventDefault();
-    main.innerText = search.value;
+    const userInput = search.value;
+    const result = colors.find(color => color.toLowerCase().startsWith(userInput.toLowerCase()));
+    if (result) {
+        autocomplete.value = result;
+        search.setAttribute('data-autocomplete', result);
+        const mainRect = main.getBoundingClientRect();
+    } else {
+        autocomplete.value = '';
+    }
+
+    
+
+
+
+
+    if (search.value.startsWith('#')) {
+        search.setAttribute('maxlength', '7');
+    } else if (search.value.startsWith('rgb')) {
+        search.setAttribute('maxlength', '16');
+    };
+    if (search.value === '') {
+        document.body.style.backgroundColor = previousColor;
+        main.innerText = mode === 'hex' ? previousColor : color.rgb;
+    } else {
+        main.innerText = search.value;
+        if (isColor(search.value)) {
+            document.body.style.backgroundColor = search.value;
+        };
+        document.body.style.backgroundColor = au
+    };
 });
 
 let mode = 'hex';
 window.addEventListener('keydown', (e) => {
-    if (e.shiftKey) {
+    if (e.ctrlKey) {
         mode = mode === 'hex' ? 'rgb' : 'hex';
         if (mode === 'hex') {
             main.innerText = color.hex;
@@ -215,7 +255,9 @@ window.addEventListener('keydown', (e) => {
     };
     if (e.key === ' ') {
         e.preventDefault();
+        clearTimeout(timeout)
         color = randomColor();
+        previousColor = color.hex;
         if (mode === 'hex') {
             main.innerText = color.hex;
             search.placeholder = color.hex;
@@ -228,5 +270,15 @@ window.addEventListener('keydown', (e) => {
         main.style.cursor = 'text';
         search.focus();
         search.value = '';
+    };
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const result = search.getAttribute('data-autocomplete');
+        if (result) {
+            search.value = result;
+            autocomplete.value = '';
+            main.innerText = result;
+            document.body.style.backgroundColor = result;
+        };
     };
 });
