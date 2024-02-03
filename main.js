@@ -148,39 +148,56 @@ const colors = [
     "Yellow",
     "YellowGreen",
 ];
-const container = document.getElementsByClassName('container')[0];
+
+const container = document.querySelector('.container');
 const search = document.getElementById('search');
 
-// Fonction pour générer une couleur aléatoire
 function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+    const values = '0123456789ABCDEF';
+    let color = '#';
+    let rgbColor = 'rgb(';
+    for (let i = 0; i < 6; i++) {
+        color += values[Math.floor(Math.random() * 16)];
     }
-    return color;
+    for (let i = 1; i < 6; i += 2) {
+        let decimal = parseInt(color.substr(i, 2), 16);
+        rgbColor += decimal;
+        if (i < 5) {
+            rgbColor += ', ';
+        }
+    }
+    rgbColor += ')';
+    return {hex: color, rgb: rgbColor};
 }
 
-function getBrightness(color) {
-    var r = parseInt(color.substr(1,2), 16);
-    var g = parseInt(color.substr(3,2), 16);
-    var b = parseInt(color.substr(5,2), 16);
-    return Math.sqrt(0.299 * r * r + 0.587 * g * g + 0.114 * b * b);
-}
-
-// Définir la couleur de fond de l'élément body lorsque la page est chargée
-window.onload = function() {
-    var color = getRandomColor();
-    document.body.style.backgroundColor = color;
-
-    // Mettre à jour le texte de l'élément HTML avec le code couleur
-    var colorCodeElement = document.getElementById('color');
-    colorCodeElement.innerText = "La couleur de fond est : " + color;
-    if (getBrightness(color) < 128) {
-        // Si la couleur de fond est sombre, définir la couleur du texte en blanc
-        colorCodeElement.style.color = 'white';
-    } else {
-        // Si la couleur de fond est claire, définir la couleur du texte en noir
-        colorCodeElement.style.color = 'black';
+let main = document.querySelector('p');
+let lastClick = 0;
+main.addEventListener('click', () => {
+    let time = new Date().getTime();
+    let diff = time - lastClick;
+    if (main.innerText.startsWith('#')) {
+        if (diff < 500) {
+            console.log('Double click detected');
+        } else {
+            navigator.clipboard.writeText(main.innerText);
+            console.log('Color copied to clipboard');
+        };
     }
+    lastClick = time;
+});
+
+window.onload = () => {
+    const color = getRandomColor();
+    document.body.style.backgroundColor = color.hex;
+
 };
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === ' ') {
+        const color = getRandomColor();
+        document.body.style.backgroundColor = color.hex;
+        main.innerText = color.hex;
+        main.style.userSelect = 'all';
+        main.style.cursor = 'text';
+    };
+});

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Gotham';
+    src: url('./gotham.otf');
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -10,4 +15,25 @@ body {
 
 #search {
     display: none;
+}
+
+
+#main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+p {
+    color: white;
+    cursor: pointer;
+    font-family: 'Gotham';
+    font-size: 50px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
