@@ -1,93 +1,121 @@
 @font-face {
-    font-family: 'Gotham';
-    src: url('./gotham.otf');
+  font-family: 'Gotham';
+  src: url('./gotham.otf');
 }
 
 :focus {
-    outline: none;
+  outline: none;
 }
 
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 #search {
-    position: fixed;
-    width: 0px;
-    height: 0px;
-    display: block;
-    background: transparent;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    color: transparent;
-    caret-color: transparent;
-    pointer-events: none;
+  position: fixed;
+  width: 0px;
+  height: 0px;
+  display: block;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: transparent;
+  caret-color: transparent;
+  pointer-events: none;
 }
 
 
 #main {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 #header {
-    position: relative;
-    color: white;
-    cursor: pointer;
-    text-align: center;
-    font-family: 'Gotham';
-    font-size: 50px;
-    letter-spacing: 2px;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  position: relative;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  font-family: 'Gotham';
+  font-size: 50px;
+  letter-spacing: 2px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+#header:hover {
+  scale: 1.05;
 }
 
 span {
-    color: white;
-    opacity: 0.4;
+  color: white;
+  opacity: 0.4;
 }
 
 #footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    color: white;
-    font-family: 'Gotham';
-    font-size: 23px;
-    opacity: 0.6;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-family: 'Gotham';
+  font-size: 23px;
+  opacity: 0.6;
 }
 
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    25% {
-        transform: scale(1.05);
-    }
-    75% {
-        transform: scale(0.95);
-    }
-    100% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05);
+  }
+  75% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .pulse {
-    animation: pulse 0.5s ease-in-out;
+  animation: pulse 0.5s ease-in-out;
+}
+
+#left {
+  position: fixed;
+  left: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  background-color: white;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+}
+
+#right {
+  position: fixed;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  background-color: white;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
 }
