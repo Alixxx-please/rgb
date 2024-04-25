@@ -193,7 +193,7 @@ let rightDot = document.getElementById('rightDot');
 let timeout2;
 header.appendChild(autocomplete);
 header.textContent = 'Touch the background'
-footer.textContent = 'Hold background to switch format - Press text to copy - Hold text to type - Touch left or right for previous or next color'
+footer.textContent = 'Hold background to switch format - Press text to copy - Hold text to type - Touch left / right for previous or next color - Enjoy :)'
 
 header.addEventListener('touchend', (e) => {
   e.stopPropagation();
