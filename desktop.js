@@ -149,7 +149,6 @@ const colors = [
   "YellowGreen",
 ];
 
-const container = document.querySelector('.container');
 const search = document.getElementById('search');
 let keyword = '';
 let timeout;
@@ -174,13 +173,12 @@ function randomColor() {
 
 let color = randomColor();
 window.onload = () => {
-  document.body.style.backgroundColor = color.hex;
   search.focus();
 };
 
-let main = document.getElementById('header');
-main.addEventListener('click', () => {
-  if (main.firstChild.nodeValue.startsWith('#') || main.firstChild.nodeValue.includes('rgb')) {
+let header = document.getElementById('header');
+header.addEventListener('click', () => {
+  if (header.firstChild.nodeValue.startsWith('#') || header.firstChild.nodeValue.includes('rgb')) {
     let content = '';
     if (mode === 'hex') {
       navigator.clipboard.writeText(color.hex);
@@ -189,11 +187,11 @@ main.addEventListener('click', () => {
       navigator.clipboard.writeText(color.rgb);
       content = color.rgb;
     };
-    main.firstChild.nodeValue = 'Copied color to clipboard!';
-    main.classList.add('pulse');
+    header.firstChild.nodeValue = 'Copied color to clipboard!';
+    header.classList.add('pulse');
     timeout = setTimeout(() => {
-      main.firstChild.nodeValue = content;
-      main.classList.remove('pulse');
+      header.firstChild.nodeValue = content;
+      header.classList.remove('pulse');
     }, 1800);
   };
 });
@@ -204,9 +202,9 @@ function isColor(color) {
   return false;
 };
 
-let previousColor = color.hex;
+let previous = color.hex;
 let autocomplete = document.createElement('span');
-main.appendChild(autocomplete);
+header.appendChild(autocomplete);
 search.addEventListener('input', (e) => {
   e.preventDefault();
   const input = search.value;
@@ -225,17 +223,17 @@ search.addEventListener('input', (e) => {
   };
 
   if (search.value === '') {
-    document.body.style.backgroundColor = previousColor;
-    main.firstChild.nodeValue = mode === 'hex' ? previousColor : color.rgb;
+    document.body.style.backgroundColor = previous;
+    header.firstChild.nodeValue = mode === 'hex' ? previous : color.rgb;
   } else {
-    main.firstChild.nodeValue = search.value;
+    header.firstChild.nodeValue = search.value;
     if (isColor(search.value)) {
        document.body.style.backgroundColor = search.value;
     };
     for (color of colors) {
       if (color.toLowerCase() === search.value.toLowerCase()) {
         document.body.style.backgroundColor = search.value;
-        main.firstChild.nodeValue = search.value;
+        header.firstChild.nodeValue = search.value;
       };
     };
   };
@@ -244,17 +242,17 @@ search.addEventListener('input', (e) => {
 let mode = 'hex';
 let precedent = [];
 let index = -1;
-let left = document.getElementById('left');
-let right = document.getElementById('right');
+let leftDot = document.getElementById('leftDot');
+let rightDot = document.getElementById('rightDot');
 window.addEventListener('keydown', (e) => {
   const result = search.getAttribute('data-autocomplete');
   if (e.ctrlKey) {
     mode = mode === 'hex' ? 'rgb' : 'hex';
     if (mode === 'hex') {
-      main.firstChild.nodeValue = color.hex;
+      header.firstChild.nodeValue = color.hex;
       search.placeholder = color.hex;
     } else {
-      main.firstChild.nodeValue = color.rgb;
+      header.firstChild.nodeValue = color.rgb;
       search.placeholder = color.rgb;
     };
   };
@@ -264,17 +262,17 @@ window.addEventListener('keydown', (e) => {
     color = randomColor();
     precedent.push(color);
     index = precedent.length - 1;
-    previousColor = color.hex;
+    previous = color.hex;
     if (mode === 'hex') {
-      main.firstChild.nodeValue = color.hex;
+      header.firstChild.nodeValue = color.hex;
       search.placeholder = color.hex;
     } else {
-      main.firstChild.nodeValue = color.rgb;
+      header.firstChild.nodeValue = color.rgb;
       search.placeholder = color.rgb;
     };
     document.body.style.backgroundColor = color.hex;
-    main.style.userSelect = 'all';
-    main.style.cursor = 'text';
+    header.style.userSelect = 'all';
+    header.style.cursor = 'text';
     search.focus();
     search.value = '';
     autocomplete.innerText = '';
@@ -284,7 +282,7 @@ window.addEventListener('keydown', (e) => {
     if (result) {
       search.value = result;
       autocomplete.innerText = '';
-      main.firstChild.nodeValue = result;
+      header.firstChild.nodeValue = result;
       document.body.style.backgroundColor = result;
     };
   };
@@ -293,7 +291,7 @@ window.addEventListener('keydown', (e) => {
       index--;
       color = precedent[index];
       document.body.style.backgroundColor = mode === 'hex' ? color.hex : color.rgb;
-      main.firstChild.nodeValue = mode === 'hex' ? color.hex : color.rgb;
+      header.firstChild.nodeValue = mode === 'hex' ? color.hex : color.rgb;
     };
   };
   if (e.key === 'ArrowRight') {
@@ -301,9 +299,9 @@ window.addEventListener('keydown', (e) => {
       index++;
       color = precedent[index];
       document.body.style.backgroundColor = mode === 'hex' ? color.hex : color.rgb;
-      main.firstChild.nodeValue = mode === 'hex' ? color.hex : color.rgb;
+      header.firstChild.nodeValue = mode === 'hex' ? color.hex : color.rgb;
     };
   };
-  left.style.display = index > 0 ? 'block' : 'none';
-  right.style.display = index < precedent.length - 1 ? 'block' : 'none';
+  leftDot.style.display = index > 0 ? 'block' : 'none';
+  rightDot.style.display = index < precedent.length - 1 ? 'block' : 'none';
 });

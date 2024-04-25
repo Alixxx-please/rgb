@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <script src="main.js" defer></script>
     <title>Random Gradient Builder</title>
   </head>
 
@@ -13,10 +12,27 @@
       <div id="main">
         <p id="header">Press the spacebar</p>
         <p id="footer">Ctrl to switch format - Click to copy -  Type to type - Enter to accept suggestion - Enjoy :)</p>
-        <input type="input" id="search" autocomplete="off">
+        <input type="input" id="search" autocomplete="off" contenteditable="true">
+        <div id="leftDot"></div>
+        <div id="rightDot"></div>
         <div id="left"></div>
         <div id="right"></div>
       </div>
     </div>
+
+    <script>
+      function isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Mobile|Opera Mini/i.test(navigator.userAgent);
+      }
+      if (isMobile()) {
+        const script = document.createElement('script');
+        script.src = 'mobile.js';
+        document.body.appendChild(script);
+      } else {
+        const script = document.createElement('script');
+        script.src = 'desktop.js';
+        document.body.appendChild(script);
+      };
+    </script>
   </body>
 </html>
