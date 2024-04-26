@@ -190,6 +190,7 @@ let right = document.getElementById('right');
 const main = document.getElementById('main');
 let leftDot = document.getElementById('leftDot');
 let rightDot = document.getElementById('rightDot');
+let counter = document.getElementById('counter');
 let timeout2;
 header.appendChild(autocomplete);
 header.textContent = 'Touch the background'
@@ -282,6 +283,7 @@ main.addEventListener('touchend', () => {
   autocomplete.innerText = '';
   leftDot.style.display = index > 0 ? 'block' : 'none';
   rightDot.style.display = index < precedent.length - 1 ? 'block' : 'none';
+  counter.innerText = `${index + 1} / ${precedent.length}`;
 });
 
 main.addEventListener('touchstart', () => {
@@ -300,6 +302,7 @@ left.addEventListener('touchend', (e) => {
     color = precedent[index];
     document.body.style.backgroundColor = mode === 'hex' ? color.hex : color.rgb;
     header.firstChild.nodeValue = mode === 'hex' ? color.hex : color.rgb;
+    counter.innerText = `${index + 1} / ${precedent.length}`;
   };
   leftDot.style.display = index > 0 ? 'block' : 'none';
   rightDot.style.display = index < precedent.length - 1 ? 'block' : 'none';
@@ -313,6 +316,7 @@ right.addEventListener('touchend', (e) => {
     color = precedent[index];
     document.body.style.backgroundColor = mode === 'hex' ? color.hex : color.rgb;
     header.firstChild.nodeValue = mode === 'hex' ? color.hex : color.rgb;
+    counter.innerText = `${index + 1} / ${precedent.length}`;
   };
   leftDot.style.display = index > 0 ? 'block' : 'none';
   rightDot.style.display = index < precedent.length - 1 ? 'block' : 'none';

@@ -242,6 +242,7 @@ search.addEventListener('input', (e) => {
 let mode = 'hex';
 let precedent = [];
 let index = -1;
+let counter = document.getElementById('counter');
 let leftDot = document.getElementById('leftDot');
 let rightDot = document.getElementById('rightDot');
 window.addEventListener('keydown', (e) => {
@@ -276,6 +277,7 @@ window.addEventListener('keydown', (e) => {
     search.focus();
     search.value = '';
     autocomplete.innerText = '';
+    counter.innerText = `${index + 1} / ${precedent.length}`;
   };
   if (e.key === 'Enter') {
     e.preventDefault();
@@ -292,6 +294,7 @@ window.addEventListener('keydown', (e) => {
       color = precedent[index];
       document.body.style.backgroundColor = mode === 'hex' ? color.hex : color.rgb;
       header.firstChild.nodeValue = mode === 'hex' ? color.hex : color.rgb;
+      counter.innerText = `${index + 1} / ${precedent.length}`;
     };
   };
   if (e.key === 'ArrowRight') {
@@ -300,6 +303,7 @@ window.addEventListener('keydown', (e) => {
       color = precedent[index];
       document.body.style.backgroundColor = mode === 'hex' ? color.hex : color.rgb;
       header.firstChild.nodeValue = mode === 'hex' ? color.hex : color.rgb;
+      counter.innerText = `${index + 1} / ${precedent.length}`;
     };
   };
   leftDot.style.display = index > 0 ? 'block' : 'none';
